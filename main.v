@@ -11,9 +11,7 @@ fn main() {
 	// text := 'a := 1*2'
 	// text := 'for i,x in chars { println(a)\nx := 100\n g++\ny := @ }'
 
-	// file := '/home/kastro/dev/src/v/vlib/builtin/string.v'
-	// file := '/home/kastro/dev/src/hv/syntax.v'
-	file := './regex/regex.v'
+	file := './examples/fibonacci.v'
 	mut text := os.read_file(file) or {
 		panic('error reading $file')
 	}
