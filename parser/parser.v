@@ -8,8 +8,9 @@ import token
 struct Parser {
 	file_path string
 mut:
-	scanner   &scanner.Scanner
 	tok       token.Token
+pub mut:
+	 scanner  &scanner.Scanner
 }
 
 pub fn new_parser(file string) Parser {
@@ -23,6 +24,7 @@ pub fn new_parser(file string) Parser {
 }
 
 pub fn (mut p Parser) parse() {
+	p.scanner.reset()
 	p.next()
 	for p.tok != .eof {
 		p.top_stmt()
@@ -93,7 +95,7 @@ pub fn (mut p Parser) top_stmt() ast.Stmt {
 			continue
 		}
 		else {
-			
+
 			panic('X: $p.tok')
 		}
 	}
@@ -400,13 +402,13 @@ pub fn (mut p Parser) expr(min_lbp token.BindingPower) ast.Expr {
 			break
 		}
 		// p.expr(lbp)
-		// TODO: use bp loop for infix & postifx instead		
+		// TODO: use bp loop for infix & postifx instead
 		// lbp2 := p.tok.infix_bp()
 		// if lbp2 < min_lbp {
 		// 	break
 		// }
 		// p.next()
-		
+
 		if p.tok.is_infix() {
 			p.next()
 			lhs =p.expr(p.tok.left_binding_power())
@@ -505,7 +507,7 @@ pub fn (mut p Parser) const_decl(is_public bool) ast.ConstDecl {
 	p.expect(.rpar)
 
 	return ast.ConstDecl{
-		
+
 	}
 }
 
@@ -642,4 +644,3 @@ pub fn (mut p Parser) error(msg string) {
 	println('$p.file_path:$p.scanner.line_nr:$col')
 	exit(1)
 }
-

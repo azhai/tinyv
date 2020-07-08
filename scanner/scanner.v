@@ -14,11 +14,33 @@ pub mut:
 }
 
 pub fn new_scanner(text string) &Scanner {
-	return &Scanner{
-		line_nr: 1
+	s := &Scanner{
 		text: text
 		// tokens: tokens
 	}
+	s.reset()
+	return s
+}
+
+pub fn (mut s Scanner) reset() {
+	s.last_nl_pos = 0
+	s.line_nr = 1
+	s.pos = 0
+	s.lit = ''
+}
+
+pub fn (mut s Scanner) scan_all() int {
+	mut n := 0
+	for {
+		kind := s.scan()
+		// kind, lit, pos := s.scan()
+		// println('lit: $s.lit - $kind - ' + int(kind).str())
+		if kind == .eof {
+			break
+		}
+		n ++
+	}
+	return n
 }
 
 // NOTE: scan/scan0 was split in case i choose to cache all tokens / peek
